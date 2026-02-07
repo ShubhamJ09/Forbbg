@@ -3,8 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <title>Valentine 💘</title>
+
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* disable text selection ONLY where needed (not globally) */
+body, button, .envelope {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 
 body {
   overflow: hidden;
@@ -78,13 +90,12 @@ body {
   transition: opacity 1.2s;
 }
 
-/* ================= MAIN VALENTINE PAGE ================= */
-
+/* ================= MAIN PAGE ================= */
 body.main {
   background: radial-gradient(circle at center, #ff4da6, #b30059, #4d0026);
 }
 
-/* HEART TUNNEL */
+/* HEARTS */
 .tunnel {
   position: fixed;
   inset: 0;
@@ -106,7 +117,7 @@ body.main {
   100% { transform: scale(2); opacity: 0; }
 }
 
-/* ENVELOPE */
+/* ================= ENVELOPE ================= */
 .envelope {
   width: 80vw;
   max-width: 320px;
@@ -115,8 +126,9 @@ body.main {
   border-radius: 14px;
   position: relative;
   box-shadow: 0 30px 70px rgba(0,0,0,0.4);
-  cursor: pointer;
-  z-index: 5;
+  cursor: pointer !important;
+  z-index: 10;
+  pointer-events: auto !important;
 }
 
 .flap {
@@ -128,6 +140,7 @@ body.main {
   clip-path: polygon(0 0, 100% 0, 50% 100%);
   transform-origin: top;
   transition: 0.8s ease;
+  pointer-events: none;
 }
 
 .seal {
@@ -145,9 +158,10 @@ body.main {
   font-size: 22px;
   color: white;
   box-shadow: 0 0 20px rgba(255,0,80,0.8);
+  pointer-events: none;
 }
 
-/* CARD */
+/* ================= CARD ================= */
 .card {
   position: absolute;
   width: 80vw;
@@ -160,16 +174,20 @@ body.main {
   justify-content: center;
   align-items: center;
   text-align: center;
-  z-index: 6;
+  z-index: 20;
   transform: translateY(10vh);
   opacity: 0;
   transition: 1s cubic-bezier(.19,1,.22,1);
   padding: 20px;
+
+  /* 🔥 CRITICAL FIX */
+  pointer-events: none;
 }
 
 .card.show {
   transform: translateY(0);
   opacity: 1;
+  pointer-events: auto;
 }
 
 .card h2 {
@@ -184,7 +202,6 @@ button {
   border: none;
   font-size: 16px;
   cursor: pointer;
-  margin: 10px;
 }
 
 #yesBtn {
@@ -194,7 +211,10 @@ button {
   animation: pulse 1.8s infinite alternate;
 }
 
-@keyframes pulse { from { transform: scale(1); } to { transform: scale(1.15); } }
+@keyframes pulse { 
+  from { transform: scale(1); } 
+  to { transform: scale(1.15); } 
+}
 
 #noBtn {
   background: white;
@@ -206,19 +226,19 @@ button {
 /* MEME SCREEN */
 #memeScreen {
   display: none;
-  z-index: 10;
+  z-index: 30;
   text-align: center;
   flex-direction: column;
   gap: 15px;
 }
 
-#memeScreen img, #memeScreen video {
+#memeScreen img {
   max-width: 80vw;
   border-radius: 20px;
   box-shadow: 0 25px 60px rgba(0,0,0,0.6);
 }
 
-/* SHAKE EFFECTS */
+/* SHAKE EFFECT */
 @keyframes subtleShake {
   0%,100% { transform: translate(0,0); }
   50% { transform: translate(1px,1px); }
@@ -231,15 +251,15 @@ button {
 }
 </style>
 </head>
+
 <body>
 
-<!-- PASSWORD SCREEN -->
 <div id="passwordScreen">
   <div id="emojiBg"></div>
   <div id="passwordBox">
     <p>whose baby are you?</p>
     <button class="passBtn" onclick="wrongAnswer()">Your parents'</button>
-    <button class="passBtn" onclick="correctAnswer()">Mine 😩</button>
+    <button class="passBtn" onclick="correctAnswer()">Mine 😘</button>
     <div id="wrongMsg"></div>
     <div id="correctMsg">Baby it's you 😍</div>
   </div>
@@ -256,7 +276,7 @@ button {
 </div>
 
 <div class="card" id="card">
-  <h2>Will you be my Valentine SmudhuDudhu? 🥹🥤</h2>
+  <h2>Will you be my Valentine SmudhuDudhu? 🥹🧃</h2>
   <div>
     <button id="yesBtn">YES 😻</button>
     <button id="noBtn">NO 😾</button>
@@ -293,7 +313,7 @@ function correctAnswer(){
       document.getElementById("passwordScreen").style.display="none";
       document.body.classList.add("main");
     },1200);
-  },3500);
+  },2000);
 }
 
 /* HEART TUNNEL */
@@ -320,7 +340,7 @@ const flap = document.getElementById("flap");
 const card = document.getElementById("card");
 const heartbeat = document.getElementById("heartbeat");
 
-envelope.onclick = () => {
+function openEnvelope() {
   flap.style.transform = "rotateX(180deg)";
   setTimeout(() => {
     card.classList.add("show");
@@ -329,6 +349,10 @@ envelope.onclick = () => {
     document.body.style.animation = "subtleShake 0.6s infinite";
   }, 500);
 }
+
+/* 🔥 STRONG CLICK FIX */
+envelope.onclick = openEnvelope;
+envelope.ontouchstart = openEnvelope;
 
 /* NO BUTTON LOGIC */
 const noBtn = document.getElementById("noBtn");
@@ -363,7 +387,7 @@ yesBtn.onclick = () => {
   document.getElementById("loveSong").play();
 
   if(navigator.vibrate){ navigator.vibrate([200,100,200,100,400]); }
-}
+};
 </script>
 
 </body>
