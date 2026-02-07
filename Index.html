@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Valentine 💘</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  overflow: hidden;
+  font-family: Poppins, sans-serif;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+/* ================= PASSWORD SCREEN ================= */
+#passwordScreen {
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    #111 0px,
+    #111 40px,
+    #000 40px,
+    #000 80px
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  text-align: center;
+  font-size: 22px;
+}
+
+#emojiBg {
+  position: absolute;
+  inset: 0;
+  font-size: 40px;
+  opacity: 0.15;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  gap: 20px;
+  pointer-events: none;
+}
+
+#passwordBox {
+  z-index: 2;
+  background: rgba(0,0,0,0.6);
+  padding: 25px 30px;
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+}
+
+.passBtn {
+  margin: 12px;
+  padding: 12px 28px;
+  border-radius: 25px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#wrongMsg {
+  margin-top: 10px;
+  color: #ff8080;
+  font-size: 16px;
+}
+
+#correctMsg {
+  font-size: 28px;
+  opacity: 0;
+  transition: opacity 1.2s;
+}
+
+/* ================= MAIN VALENTINE PAGE ================= */
+
+body.main {
+  background: radial-gradient(circle at center, #ff4da6, #b30059, #4d0026);
+}
+
+/* HEART TUNNEL */
+.tunnel {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.heart-svg {
+  position: absolute;
+  width: 8vmin;
+  height: 8vmin;
+  fill: hotpink;
+  filter: drop-shadow(0 0 15px rgba(255,100,180,0.7));
+  animation: tunnel 6s linear infinite;
+}
+
+@keyframes tunnel {
+  0% { transform: scale(0.1); opacity: 1; }
+  100% { transform: scale(2); opacity: 0; }
+}
+
+/* ENVELOPE */
+.envelope {
+  width: 80vw;
+  max-width: 320px;
+  height: 210px;
+  background: white;
+  border-radius: 14px;
+  position: relative;
+  box-shadow: 0 30px 70px rgba(0,0,0,0.4);
+  cursor: pointer;
+  z-index: 5;
+}
+
+.flap {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 50%;
+  background: #ffe0ec;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform-origin: top;
+  transition: 0.8s ease;
+}
+
+.seal {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 60px;
+  background: crimson;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 22px;
+  color: white;
+  box-shadow: 0 0 20px rgba(255,0,80,0.8);
+}
+
+/* CARD */
+.card {
+  position: absolute;
+  width: 80vw;
+  max-width: 380px;
+  background: linear-gradient(135deg, #ff4da6, #ff80bf);
+  border-radius: 20px;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  z-index: 6;
+  transform: translateY(10vh);
+  opacity: 0;
+  transition: 1s cubic-bezier(.19,1,.22,1);
+  padding: 20px;
+}
+
+.card.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.card h2 {
+  font-size: 5vw;
+  margin-bottom: 20px;
+}
+
+/* BUTTONS */
+button {
+  padding: 12px 25px;
+  border-radius: 25px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 10px;
+}
+
+#yesBtn {
+  background: hotpink;
+  color: white;
+  box-shadow: 0 0 20px rgba(255,0,150,0.9);
+  animation: pulse 1.8s infinite alternate;
+}
+
+@keyframes pulse { from { transform: scale(1); } to { transform: scale(1.15); } }
+
+#noBtn {
+  background: white;
+  color: black;
+  position: absolute;
+  transition: transform 0.2s, left 0.3s, top 0.3s;
+}
+
+/* MEME SCREEN */
+#memeScreen {
+  display: none;
+  z-index: 10;
+  text-align: center;
+  flex-direction: column;
+  gap: 15px;
+}
+
+#memeScreen img, #memeScreen video {
+  max-width: 80vw;
+  border-radius: 20px;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+}
+
+/* SHAKE EFFECTS */
+@keyframes subtleShake {
+  0%,100% { transform: translate(0,0); }
+  50% { transform: translate(1px,1px); }
+}
+
+@keyframes breakEffect {
+  0% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.2) rotate(10deg); }
+  100% { transform: scale(0) rotate(90deg); opacity:0; }
+}
+</style>
+</head>
+<body>
+
+<!-- PASSWORD SCREEN -->
+<div id="passwordScreen">
+  <div id="emojiBg"></div>
+  <div id="passwordBox">
+    <p>whose baby are you?</p>
+    <button class="passBtn" onclick="wrongAnswer()">Your parents'</button>
+    <button class="passBtn" onclick="correctAnswer()">Mine 😩</button>
+    <div id="wrongMsg"></div>
+    <div id="correctMsg">Baby it's you 😍</div>
+  </div>
+</div>
+
+<div class="tunnel" id="tunnel"></div>
+
+<audio id="loveSong" src="Songs.mp3"></audio>
+<audio id="heartbeat" src="Heartbeat.mp3" loop></audio>
+
+<div class="envelope" id="envelope">
+  <div class="flap" id="flap"></div>
+  <div class="seal">❤</div>
+</div>
+
+<div class="card" id="card">
+  <h2>Will you be my Valentine SmudhuDudhu? 🥹🥤</h2>
+  <div>
+    <button id="yesBtn">YES 😻</button>
+    <button id="noBtn">NO 😾</button>
+  </div>
+</div>
+
+<div id="memeScreen">
+  <img src="Catrose.jpg">
+  <img src="Love.gif">
+</div>
+
+<script>
+/* EMOJI BACKGROUND */
+const emojiBg = document.getElementById("emojiBg");
+for(let i=0;i<200;i++){
+  const span=document.createElement("span");
+  span.innerText="🤨";
+  emojiBg.appendChild(span);
+}
+
+/* PASSWORD LOGIC */
+function wrongAnswer(){
+  document.getElementById("wrongMsg").innerText="wrong answer 🤨";
+}
+
+function correctAnswer(){
+  document.getElementById("wrongMsg").innerText="";
+  const msg=document.getElementById("correctMsg");
+  msg.style.opacity=1;
+
+  setTimeout(()=>{
+    document.getElementById("passwordScreen").style.opacity=0;
+    setTimeout(()=>{
+      document.getElementById("passwordScreen").style.display="none";
+      document.body.classList.add("main");
+    },1200);
+  },3500);
+}
+
+/* HEART TUNNEL */
+const tunnel = document.getElementById("tunnel");
+for (let i = 0; i < 15; i++) {
+  const svgNS = "http://www.w3.org/2000/svg";
+  const heart = document.createElementNS(svgNS, "svg");
+  heart.setAttribute("viewBox", "0 0 24 24");
+  heart.classList.add("heart-svg");
+
+  const path = document.createElementNS(svgNS, "path");
+  path.setAttribute("d", "M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z");
+  heart.appendChild(path);
+
+  heart.style.left = Math.random() * window.innerWidth + "px";
+  heart.style.top = Math.random() * window.innerHeight + "px";
+  heart.style.animationDelay = (i * 0.3) + "s";
+  tunnel.appendChild(heart);
+}
+
+/* ENVELOPE OPEN */
+const envelope = document.getElementById("envelope");
+const flap = document.getElementById("flap");
+const card = document.getElementById("card");
+const heartbeat = document.getElementById("heartbeat");
+
+envelope.onclick = () => {
+  flap.style.transform = "rotateX(180deg)";
+  setTimeout(() => {
+    card.classList.add("show");
+    envelope.style.opacity = "0";
+    heartbeat.play();
+    document.body.style.animation = "subtleShake 0.6s infinite";
+  }, 500);
+}
+
+/* NO BUTTON LOGIC */
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+let noCount = 0;
+
+function moveNo(){
+  noCount++;
+  const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+  const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+  let x = Math.random() * maxX;
+  let y = Math.random() * maxY;
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+
+  if(noCount >= 5){
+    noBtn.style.animation = "breakEffect 0.7s forwards";
+    setTimeout(()=>noBtn.remove(), 700);
+    yesBtn.style.transform = "scale(1.8)";
+  }
+}
+
+noBtn.addEventListener("mouseover", moveNo);
+noBtn.addEventListener("touchstart", moveNo);
+
+/* YES CLICK */
+yesBtn.onclick = () => {
+  card.style.display = "none";
+  document.getElementById("memeScreen").style.display = "flex";
+  heartbeat.pause();
+  document.body.style.animation = "subtleShake 0.3s infinite";
+  document.getElementById("loveSong").play();
+
+  if(navigator.vibrate){ navigator.vibrate([200,100,200,100,400]); }
+}
+</script>
+
+</body>
+</html>
